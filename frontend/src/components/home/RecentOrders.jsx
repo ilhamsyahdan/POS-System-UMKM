@@ -1,8 +1,6 @@
 import { CiSearch } from "react-icons/ci";
 import OrderList from "./OrderList";
 import { useOrderDetail } from "../../hooks/useOrderDetail";
-import { useDispatch, useSelector } from "react-redux";
-import { setSearchTerm } from "../../redux/slices/searchSlice";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useSearchParams } from "react-router-dom";
 
@@ -10,10 +8,9 @@ const RecentOrders = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const search = searchParams.get("search") || "";
-
   const debouncedSearchTerm = useDebounce(search, 400);
 
-  const { orders, meta, isLoading } = useOrderDetail({
+  const { orders, isLoading } = useOrderDetail({
     search: debouncedSearchTerm,
   });
 

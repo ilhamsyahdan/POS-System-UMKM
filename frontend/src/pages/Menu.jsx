@@ -8,6 +8,7 @@ import Bill from "../components/menu/Bill";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
+
 const Menu = () => {
   const customerData = useSelector((state) => state.customer);
   const cartData = useSelector((state) => state.cart);

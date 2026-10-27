@@ -5,7 +5,6 @@ import BottomNav from "../components/shared/BottomNav";
 import { useOrderDetail } from "../hooks/useOrderDetail";
 import { useSearchParams } from "react-router-dom";
 import { useDebounce } from "../hooks/useDebounce";
-import { useDispatch, useSelector } from "react-redux";
 
 const ORDER_STATUS = {
   ALL: "all",

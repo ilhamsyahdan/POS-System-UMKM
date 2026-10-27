@@ -16,12 +16,6 @@ const PaymentResult = () => {
   const status = searchParams.get("transaction_status");
 
   useEffect(() => {
-    console.log("🔍 Debug PaymentResult:", {
-      orderCode,
-      status,
-      allParams: Object.fromEntries(searchParams.entries()),
-    });
-
     if (!orderCode) {
       console.error("❌ No order_id found in URL");
       enqueueSnackbar("Order ID not found", { variant: "error" });
@@ -34,10 +28,7 @@ const PaymentResult = () => {
       setError(null);
 
       try {
-        console.log("📡 Fetching order:", orderCode);
         const res = await getInvoiceByOrderCode(orderCode);
-
-        console.log("✅ Order fetched:", res.data);
 
         if (!res?.data?.data) {
           throw new Error("Invalid response format");

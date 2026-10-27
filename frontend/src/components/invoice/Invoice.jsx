@@ -4,10 +4,6 @@ import { FaCheck, FaPrint, FaTimes, FaReceipt } from "react-icons/fa";
 import { formatRupiah } from "../../utils";
 
 const Invoice = ({ orderInfo, setShowInvoice, paymentInfo }) => {
-  console.log("paymentInfo", paymentInfo);
-
-  console.log("orderinfo", orderInfo);
-
   const navigate = useNavigate();
   const isModal = typeof setShowInvoice === "function";
   const invoiceRef = useRef(null);
@@ -78,7 +74,7 @@ const Invoice = ({ orderInfo, setShowInvoice, paymentInfo }) => {
 
   const paymentMethod = paymentInfo?.method || "CASH";
   const paymentStatus =
-    paymentInfo?.status || (method === "cash" ? "PAID" : "PENDING");
+    paymentInfo?.status || (paymentMethod === "cash" ? "PAID" : "PENDING");
   const paymentCode = paymentInfo?.paymentCode || "-";
   const midtrans = paymentInfo?.midtrans || null;
 

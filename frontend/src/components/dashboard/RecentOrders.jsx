@@ -4,7 +4,6 @@ import { useOrderDetail } from "../../hooks/useOrderDetail";
 import { useUpdateOrderStatus } from "../../hooks/useUpdateOrderStatus";
 import { useTableFilters } from "../../hooks/useTableFilters";
 import { useDebounce } from "../../hooks/useDebounce";
-import { usePaginationParams } from "../../hooks/usePaginationParams";
 import { useMemo, useCallback, useState } from "react";
 import { format } from "date-fns";
 
@@ -179,7 +178,7 @@ const RecentOrders = () => {
     <div className="container mx-auto p-6 rounded-lg">
       {/* Header with filters */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
-        <h2 className="text-[#f5f5f5] text-xl font-semibold">
+        <h2 className="text-[rgb(245,245,245)] text-xl font-semibold">
           Recent Orders ({orders?.length || 0})
         </h2>
 
