@@ -2,6 +2,7 @@ import api from "./http";
 
 export const addOrder = (data) => api.post("/api/order", data);
 export const getOrders = (params = {}) => api.get("/api/order", { params });
+export const getOrderStats = () => api.get("/api/order/stats"); // tambahan
 
 export const updateOrderStatus = ({ orderId, orderStatus }) =>
   api.patch(`/api/order/${orderId}`, { orderStatus });

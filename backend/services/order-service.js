@@ -67,7 +67,7 @@ const addOrder = async (payload) => {
           status: "Booked",
           currentOrder: order._id,
         },
-        { session }
+        { session },
       );
     }
 
@@ -103,7 +103,6 @@ const getOrders = async ({
   limit = 10,
 } = {}) => {
   const query = {};
-  console.log("FILTER MASUK:", { status, period, search });
 
   // 🔹 Filter status
   if (status) {
@@ -195,7 +194,7 @@ const updateOrder = async (id, orderStatus) => {
   if (!allowedNext.includes(orderStatus)) {
     throw createHttpError(
       400,
-      `Invalid status transition from ${order.orderStatus} to ${orderStatus}`
+      `Invalid status transition from ${order.orderStatus} to ${orderStatus}`,
     );
   }
 
@@ -211,7 +210,7 @@ const updateOrder = async (id, orderStatus) => {
     if (payment.status !== "success") {
       throw createHttpError(
         400,
-        "Order cannot be completed before payment success"
+        "Order cannot be completed before payment success",
       );
     }
   }
@@ -229,9 +228,66 @@ const updateOrder = async (id, orderStatus) => {
   return order;
 };
 
+const calcPercentChange = (current, previous) => {
+  if (previous === 0) return current === 0 ? 0 : null; // null = tidak bisa dihitung
+  return Number((((current - previous) / previous) * 100).toFixed(1));
+};
+
+const getOrderStats = async () => {
+  const now = new Date();
+  const startThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const startLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+
+  const [earningsAgg, inProgress] = await Promise.all([
+    Order.aggregate([
+      { $match: { orderStatus: "completed" } },
+      {
+        $group: {
+          _id: null,
+          all: { $sum: "$bills.totalWithTax" },
+          thisMonth: {
+            $sum: {
+              $cond: [
+                { $gte: ["$createdAt", startThisMonth] },
+                "$bills.totalWithTax",
+                0,
+              ],
+            },
+          },
+          lastMonth: {
+            $sum: {
+              $cond: [
+                {
+                  $and: [
+                    { $gte: ["$createdAt", startLastMonth] },
+                    { $lt: ["$createdAt", startThisMonth] },
+                  ],
+                },
+                "$bills.totalWithTax",
+                0,
+              ],
+            },
+          },
+        },
+      },
+    ]),
+    Order.countDocuments({ orderStatus: "in_progress" }),
+  ]);
+
+  const e = earningsAgg[0] || { all: 0, thisMonth: 0, lastMonth: 0 };
+
+  return {
+    totalEarnings: e.all,
+    earningsThisMonth: e.thisMonth,
+    earningsChange: calcPercentChange(e.thisMonth, e.lastMonth),
+    inProgress,
+  };
+};
+
 module.exports = {
   addOrder,
   getOrderById,
   getOrders,
   updateOrder,
+  getOrderStats,
 };

@@ -5,13 +5,16 @@ const {
   getOrders,
   getOrderById,
   updateOrder,
-  getOrderByCode,
+  getOrderStats,
 } = require("../controllers/orderController");
 const router = express.Router();
 
 router.route("/").post(isVerifiedUser, addOrder);
 router.route("/").get(isVerifiedUser, getOrders);
-// router.route("/code/:orderCode").get(getOrderByCode);
+
+// HARUS di atas "/:id"
+router.route("/stats").get(isVerifiedUser, getOrderStats);
+
 router.route("/:id").get(isVerifiedUser, getOrderById);
 router.route("/:id").patch(isVerifiedUser, updateOrder);
 
