@@ -6,9 +6,9 @@ A Point of Sale (POS) web application for restaurants, built with the MERN stack
 
 ## Screenshots
 
-| Dashboard                                    | Orders                                 |
-| -------------------------------------------- | -------------------------------------- |
-| ![Dashboard](docs/screenshots/dashboard.png) | ![Orders](docs/screenshots/orders.png) |
+| Dashboard                               | Orders                                 |
+| --------------------------------------- | -------------------------------------- |
+| ![Dashboard](docs/screenshots/home.png) | ![Orders](docs/screenshots/orders.png) |
 
 | Tables                                 | Payments                                   |
 | -------------------------------------- | ------------------------------------------ |
