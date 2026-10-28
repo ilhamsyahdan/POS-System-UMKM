@@ -70,7 +70,7 @@ const RecentOrders = () => {
   // Memoized helpers
   const getStatusColor = useCallback((orderStatus) => {
     const statusOption = STATUS_OPTIONS.find(
-      (opt) => opt.value === orderStatus
+      (opt) => opt.value === orderStatus,
     );
     return statusOption?.color || "text-gray-500 border-gray-500";
   }, []);
@@ -93,14 +93,14 @@ const RecentOrders = () => {
 
       updateStatus.mutate({ orderId, orderStatus, tableId });
     },
-    [updateStatus]
+    [updateStatus],
   );
 
   const handleFilterChange = useCallback(
     (filterKey, value) => {
       setFilter(filterKey, value);
     },
-    [setFilter, setPage]
+    [setFilter, setPage],
   );
 
   const handlePageChange = useCallback(
@@ -108,7 +108,7 @@ const RecentOrders = () => {
       if (newPage < 1 || newPage > totalPages) return;
       setPage(newPage);
     },
-    [setPage, totalPages]
+    [setPage, totalPages],
   );
 
   const handleExportExcel = useCallback(() => {
@@ -123,14 +123,10 @@ const RecentOrders = () => {
   }, []);
 
   const handleViewDetail = useCallback((orderId) => {
-    // TODO: Navigate to order detail page or open modal
-    console.log("View detail for order:", orderId);
     enqueueSnackbar("Opening order detail...", { variant: "info" });
   }, []);
 
   const handlePrintReceipt = useCallback((orderId) => {
-    // TODO: Implement print receipt
-    console.log("Print receipt for order:", orderId);
     enqueueSnackbar("Print receipt coming soon", { variant: "info" });
   }, []);
 
@@ -328,16 +324,11 @@ const RecentOrders = () => {
                     <td className="p-4">
                       <select
                         className={`bg-[#1a1a1a] text-[#f5f5f5] border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer transition-all text-sm ${getStatusColor(
-                          orderStatus
+                          orderStatus,
                         )}`}
                         value={orderStatus}
                         onChange={(e) => {
                           const newStatus = e.target.value;
-                          console.log("📝 Status dropdown changed:", {
-                            from: orderStatus,
-                            to: newStatus,
-                            orderId,
-                          });
                           handleStatusChange({
                             orderId,
                             orderStatus: newStatus,
@@ -352,7 +343,7 @@ const RecentOrders = () => {
                             <option key={value} value={value}>
                               {label}
                             </option>
-                          )
+                          ),
                         )}
                       </select>
                     </td>

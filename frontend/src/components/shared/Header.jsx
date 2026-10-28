@@ -11,9 +11,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { logout } from "../../api/auth.api";
 import { useLowStockNotifications } from "../../hooks/useLowStockNotification";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiRestaurant } from "react-icons/bi";
-import { setSearchTerm } from "../../redux/slices/searchSlice";
+import { useDebounce } from "../../hooks/useDebounce";
 
 const Badge = ({ count }) => (
   <span className="absolute -top-2 -right-2 min-w-[18px] h-[18px] bg-red-500 text-xs text-white rounded-full flex items-center justify-center">
@@ -29,7 +29,31 @@ const Header = () => {
 
   const userData = useSelector((state) => state.user);
 
-  const search = searchParams.get("search") || "";
+  const urlSearch = searchParams.get("search") || "";
+  const [searchInput, setSearchInput] = useState(urlSearch);
+
+  const debouncedSearch = useDebounce(searchInput, 400);
+
+  useEffect(() => {
+    setSearchInput(urlSearch);
+  }, [urlSearch]);
+
+  useEffect(() => {
+    if (debouncedSearch !== urlSearch) {
+      setSearchParams(
+        (prev) => {
+          const params = new URLSearchParams(prev);
+          if (debouncedSearch) {
+            params.set("search", debouncedSearch);
+          } else {
+            params.delete("search");
+          }
+          return params;
+        },
+        { replace: true },
+      );
+    }
+  }, [debouncedSearch]);
 
   const navigate = useNavigate();
 
@@ -38,12 +62,11 @@ const Header = () => {
   const logoutMutation = useMutation({
     mutationFn: () => logout(),
     onSuccess: (data) => {
-      console.log(data);
       dispatch(removeUser());
       navigate("/auth");
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
     },
   });
 
@@ -63,15 +86,9 @@ const Header = () => {
         <input
           type="text"
           placeholder="Search..."
-          value={search}
-          onChange={(e) =>
-            setSearchParams((prev) => {
-              const params = new URLSearchParams(prev);
-              params.set("search", e.target.value);
-              return params;
-            })
-          }
-          className="bg-[#1f1f1f] text-[#f5f5f5] px-2 py-1 rounded-md outline-none"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          className="bg-[#1f1f1f] text-[#f5f5f5] px-2 py-1 rounded-md outline-none w-full"
         />
       </div>
 

@@ -22,7 +22,6 @@ const Metrics = () => {
   if (error) return <p className="text-red-500">Failed to load</p>;
 
   const { metrics = {}, items = {} } = response?.data?.data || {};
-  console.log("metrics: ", metrics);
 
   const metricsData = [
     {

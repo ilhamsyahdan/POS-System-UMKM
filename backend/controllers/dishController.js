@@ -73,7 +73,6 @@ const getPopularDishes = async (req, res, next) => {
   try {
     const limit = Number(req.query.limit) || 10;
     const dishes = await dishService.getPopularDishes(limit);
-    console.log("dishes: ", dishes);
 
     res.status(200).json({
       success: true,

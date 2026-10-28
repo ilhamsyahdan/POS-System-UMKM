@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import OrderList from "./OrderList";
 import { useOrderDetail } from "../../hooks/useOrderDetail";
@@ -7,8 +8,31 @@ import { useSearchParams } from "react-router-dom";
 const RecentOrders = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const search = searchParams.get("search") || "";
-  const debouncedSearchTerm = useDebounce(search, 400);
+  const urlSearch = searchParams.get("search") || "";
+  const [searchInput, setSearchInput] = useState(urlSearch);
+
+  const debouncedSearchTerm = useDebounce(searchInput, 400);
+
+  useEffect(() => {
+    setSearchInput(urlSearch);
+  }, [urlSearch]);
+
+  useEffect(() => {
+    if (debouncedSearchTerm !== urlSearch) {
+      setSearchParams(
+        (prev) => {
+          const params = new URLSearchParams(prev);
+          if (debouncedSearchTerm) {
+            params.set("search", debouncedSearchTerm);
+          } else {
+            params.delete("search");
+          }
+          return params;
+        },
+        { replace: true }
+      );
+    }
+  }, [debouncedSearchTerm]);
 
   const { orders, isLoading } = useOrderDetail({
     search: debouncedSearchTerm,
@@ -21,24 +45,15 @@ const RecentOrders = () => {
           <h1 className="text-2xl font-poppins font-bold text-white tracking-wide">
             Recent Orders
           </h1>
-          {/* <a href="" className="font-semibold text-[#025cca]">
-            View All
-          </a> */}
         </div>
         <div className="flex items-center gap-2 bg-[#1f1f1f] rounded-md mx-6 px-5 py-2 text-white">
           <CiSearch size={32} />
           <input
             type="text"
-            value={search}
-            onChange={(e) =>
-              setSearchParams((prev) => {
-                const params = new URLSearchParams(prev);
-                params.set("search", e.target.value);
-                return params;
-              })
-            }
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Search..."
-            className="bg-[#1f1f1f] text-[#f5f5f5] px-2 py-1 rounded-md outline-none"
+            className="bg-[#1f1f1f] text-[#f5f5f5] px-2 py-1 rounded-md outline-none w-full"
           />
         </div>
 

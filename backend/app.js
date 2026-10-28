@@ -4,9 +4,7 @@ const cookieParser = require("cookie-parser");
 const createHttpError = require("http-errors");
 
 const connectDB = require("./config/database");
-
 const globalErrorHandler = require("./middlewares/globalErrorHandler");
-
 const app = express();
 
 app.use(async (req, res, next) => {

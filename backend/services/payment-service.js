@@ -22,8 +22,6 @@ const core = new midtransClient.CoreApi({
 const createPayment = async ({ orderId, paymentMethod }) => {
   const order = await Order.findById(orderId);
   if (!order) throw createHttpError(404, "Order not found");
-  console.log("CREATE PAYMENT:", orderId, paymentMethod);
-  console.log("order: ", order);
 
   const existingPayment = await Payment.findOne({ order: order._id });
   if (existingPayment) return existingPayment;
@@ -87,7 +85,7 @@ const verifyPayment = async (paymentCode) => {
   const payment = await Payment.findOneAndUpdate(
     { paymentCode },
     { status: newStatus },
-    { new: true }
+    { new: true },
   );
 
   if (!payment) throw createHttpError(404, "Payment not found");
@@ -116,7 +114,7 @@ const handleWebhook = async (notification) => {
   const payment = await Payment.findOneAndUpdate(
     { paymentCode: statusResponse.order_id },
     { status: newStatus },
-    { new: true }
+    { new: true },
   ).populate("order");
 
   if (!payment) throw createHttpError(404, "Payment not found");

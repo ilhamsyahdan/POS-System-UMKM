@@ -108,8 +108,8 @@ const PaymentTable = () => {
                     p.status === "success"
                       ? "text-green-400"
                       : p.status === "pending"
-                      ? "text-yellow-400"
-                      : "text-red-400"
+                        ? "text-yellow-400"
+                        : "text-red-400"
                   }`}
                 >
                   {p.status}
@@ -135,10 +135,6 @@ const PaymentTable = () => {
           )}
         </tbody>
       </table>
-
-      <div className="mt-4 text-right text-lg font-semibold">
-        Total Amount: {formatRupiah(totalAmount)}
-      </div>
 
       {/* Pagination */}
       <div className="flex justify-center items-center gap-2 mt-4">

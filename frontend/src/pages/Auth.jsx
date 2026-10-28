@@ -24,7 +24,6 @@ const Auth = () => {
 
       <div className="w-1/2 min-h-screen bg-[#1a1a1a] p-10">
         <div className="flex flex-col gap-2 items-center justify-center">
-          <span>L O G O</span>
           <h1 className="font-bold text-4xl mt-10 text-yellow-400">
             {isRegistration ? "Employee Registration" : "Employee Login"}
           </h1>

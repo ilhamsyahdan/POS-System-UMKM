@@ -1,5 +1,6 @@
 import { IoMdClose } from "react-icons/io";
 import { useDishForm } from "../../hooks/useDishForm";
+import { motion } from "framer-motion";
 
 const DishModal = ({ setIsDishesModalOpen, editingDish, setEditingDish }) => {
   const handleClose = () => {
@@ -120,8 +121,8 @@ const DishModal = ({ setIsDishesModalOpen, editingDish, setEditingDish }) => {
                 ? "Updating..."
                 : "Saving..."
               : editingDish
-              ? "Update Dish"
-              : "Save Dish"}
+                ? "Update Dish"
+                : "Save Dish"}
           </button>
         </form>
       </motion.div>

@@ -6,8 +6,6 @@ import { enqueueSnackbar } from "notistack";
 import { addTable, updatedTable } from "../../api/table.api";
 
 const Modal = ({ setIsTableModalOpen, editingTable, setEditingTable }) => {
-  console.log(editingTable);
-
   const [tableData, setTableData] = useState({ tableNo: "", seats: "" });
   const queryClient = useQueryClient();
 
@@ -37,7 +35,7 @@ const Modal = ({ setIsTableModalOpen, editingTable, setEditingTable }) => {
         queryClient.setQueryData(["tables"], (old) => ({
           ...old,
           data: old.data.map((t) =>
-            t._id === editingTable._id ? { ...t, ...tableData } : t
+            t._id === editingTable._id ? { ...t, ...tableData } : t,
           ),
         }));
       }
@@ -133,8 +131,8 @@ const Modal = ({ setIsTableModalOpen, editingTable, setEditingTable }) => {
                 ? "Updating..."
                 : "Saving..."
               : editingTable
-              ? "Update Table"
-              : "Add Table"}
+                ? "Update Table"
+                : "Add Table"}
           </button>
         </form>
       </motion.div>

@@ -41,7 +41,7 @@ const Orders = () => {
   });
 
   return (
-    <section className="bg-[#1f1f1f] h-[calc(100vh-5rem)] overflow-y-scroll scrollbar-hide">
+    <section className="bg-[#1f1f1f]">
       <div className="mt-4 flex justify-between items-start text-white w-full px-8 flex-wrap">
         <div className="flex items-center gap-2">
           <BackButton />

@@ -3,6 +3,7 @@ import { IoMdClose } from "react-icons/io";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { addCategory, updateCategory } from "../../api";
+import {motion} from "framer-motion";
 
 const CategoryModal = ({
   setIsCategoryModalOpen,
