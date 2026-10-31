@@ -1,8 +1,7 @@
-import { format } from "date-fns";
 import { exportPaymentsToExcel } from "../../utils/excelExport.utils";
 import { usePayments } from "../../hooks/usePayments";
 import { useTableFilters } from "../../hooks/useTableFilters";
-import { formatRupiah } from "../../utils";
+import { formatDateAndTime, formatRupiah } from "../../utils";
 import { useDebounce } from "../../hooks/useDebounce";
 
 const PaymentTable = () => {
@@ -118,9 +117,7 @@ const PaymentTable = () => {
                 <td className="p-3">{p.order.customer.name || "-"}</td>
                 <td className="p-3">{p.order.customer.phone || "-"}</td>
                 <td className="p-3">
-                  {p.createdAt
-                    ? format(new Date(p.createdAt), "dd MMM yyyy HH:mm")
-                    : "-"}
+                  {p.createdAt ? formatDateAndTime(p.createdAt) : "-"}
                 </td>
               </tr>
             ))
