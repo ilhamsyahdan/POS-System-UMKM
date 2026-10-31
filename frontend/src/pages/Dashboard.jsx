@@ -1,4 +1,3 @@
-import Metrics from "../components/dashboard/Metrics";
 import RecentOrders from "../components/dashboard/RecentOrders";
 import DishTable from "../components/dashboard/DishTable";
 import { useState } from "react";
@@ -9,19 +8,12 @@ import CategoryTable from "../components/dashboard/CategoryTable";
 import TableTable from "../components/dashboard/TableTable";
 import PaymentTable from "../components/dashboard/PaymentTable";
 import { useSearchParams } from "react-router-dom";
-import Report from "../components/dashboard/Report";
-
-const buttons = [
-  // { label: "Add Table", icon: <GrTableAdd />, action: "table" },
-  // { label: "Add Category", icon: <TbCategoryPlus />, action: "category" },
-  // { label: "Add Dishes", icon: <BiSolidDish />, action: "dishes" },
-];
+import Overview from "../components/dashboard/Overview";
 
 const tabs = [
-  "Metrics",
+  "Overview",
   "Orders",
   "Payments",
-  "Report",
   "Dishes",
   "Categories",
   "Tables",
@@ -29,7 +21,7 @@ const tabs = [
 
 const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const activeTab = searchParams.get("tab") || "metrics";
+  const activeTab = searchParams.get("tab") || "overview";
 
   const [isTableModalOpen, setIsTableModalOpen] = useState(false);
   const [editingTable, setEditingTable] = useState(null);
@@ -97,29 +89,11 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Action Buttons (if any) */}
-      {buttons.length > 0 && (
-        <div className="px-4 md:px-6 py-4">
-          <div className="flex flex-wrap gap-2">
-            {buttons.map(({ label, icon, action }) => (
-              <button
-                key={label}
-                className="bg-[#262626] hover:bg-[#2d2d2d] px-4 md:px-6 py-2.5 rounded-lg text-white font-medium text-sm flex items-center gap-2 transition-colors"
-                onClick={() => handleOpenModal(action)}
-              >
-                {label} {icon}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* Tab Content */}
       <div className="px-4 md:px-6 pb-6">
-        {activeTab === "metrics" && <Metrics />}
+        {activeTab === "overview" && <Overview />}
         {activeTab === "orders" && <RecentOrders />}
         {activeTab === "payments" && <PaymentTable />}
-        {activeTab === "report" && <Report />}
         {activeTab === "dishes" && (
           <DishTable
             onAdd={() => setIsDishesModalOpen(true)}
