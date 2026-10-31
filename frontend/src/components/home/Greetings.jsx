@@ -27,20 +27,30 @@ const Greetings = () => {
     ];
     return `${months[date.getMonth()]} ${String(date.getDate()).padStart(
       2,
-      "0"
+      "0",
     )} ${date.getFullYear()}`;
   };
 
   const formatTime = (date) => {
     return `${String(date.getHours()).padStart(2, "0")}:${String(
-      date.getMinutes()
+      date.getMinutes(),
     ).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
   };
+
+  const getGreetings = (date) => {
+    const hour = date.getHours();
+
+    if (hour >= 5 && hour < 12) return "Good Morning";
+    if (hour >= 12 && hour < 18) return "Good Afternoon";
+
+    return "Good Evening";
+  };
+
   return (
     <div className="flex justify-between items-center px-8 text-white font-poppins mt-5">
       <div>
         <h1 className="text-2xl font-semibold">
-          Good Morning, {userData.name}
+          {getGreetings(dateTime)}, {userData.name}
         </h1>
         <p className="text-sm font-poppins">
           Give your best service for customers😊
