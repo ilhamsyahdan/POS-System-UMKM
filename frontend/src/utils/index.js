@@ -43,7 +43,7 @@ export const formatDate = (date) => {
   ];
   return `${months[date.getMonth()]} ${String(date.getDate()).padStart(
     2,
-    "0"
+    "0",
   )}, ${date.getFullYear()}`;
 };
 
@@ -56,10 +56,25 @@ export const formatDateAndTime = (date) => {
     minute: "2-digit",
     second: "2-digit",
     hour12: true,
-    timeZone: "Asia/Kolkata",
+    timeZone: "Asia/Jakarta",
   });
 
   return dateAndTime;
+};
+
+export const formatShortDateTime = (date) => {
+  if (!date) return "-";
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "Asia/Jakarta",
+  })
+    .format(new Date(date))
+    .replace(",", "");
 };
 
 export const formatRupiah = (value) =>
