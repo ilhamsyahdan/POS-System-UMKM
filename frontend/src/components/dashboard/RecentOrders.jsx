@@ -1,11 +1,14 @@
-import { formatDateAndTime, formatRupiah } from "../../utils";
+import {
+  formatDateAndTime,
+  formatRupiah,
+  formatShortDateTime,
+} from "../../utils";
 import { enqueueSnackbar } from "notistack";
 import { useOrderDetail } from "../../hooks/useOrderDetail";
 import { useUpdateOrderStatus } from "../../hooks/useUpdateOrderStatus";
 import { useTableFilters } from "../../hooks/useTableFilters";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useMemo, useCallback, useState } from "react";
-import { format } from "date-fns";
 
 // Constants
 const ITEMS_PER_PAGE = 10;
@@ -348,9 +351,7 @@ const RecentOrders = () => {
                       </select>
                     </td>
                     <td className="p-4 text-sm whitespace-nowrap text-gray-300">
-                      {orderDateTime
-                        ? format(new Date(orderDateTime), "dd MMM yyyy HH:mm")
-                        : "-"}
+                      {orderDateTime ? formatShortDateTime(orderDateTime) : "-"}
                     </td>
                   </tr>
                 );
